@@ -32,21 +32,30 @@ export class UserCreateController implements Controller {
 			console.log(httpStatus);
 			return  {
 				statusCode: httpStatus["200"],
+				headers: {
+					'Content-Type': 'application/json',
+				},
 				body: JSON.stringify({
 					message: "User created",
 					data: createUserCommand,
 				})
 			};
-		} catch (error) {
+		} catch (error: any) {
 			if (error instanceof UserAlreadyExists) {
 				return {
 					statusCode: httpStatus.BAD_REQUEST,
+					headers: {
+						'Content-Type': 'text/plain',
+					},
 					body: error.message,
 				};
 			} else {
 				return {
 					statusCode: httpStatus.INTERNAL_SERVER_ERROR,
-					body: JSON.parse(error),
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(error),
 				};
 			}
 		}

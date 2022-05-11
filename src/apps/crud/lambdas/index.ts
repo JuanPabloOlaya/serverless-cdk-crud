@@ -1,14 +1,8 @@
 import { Handler } from "aws-lambda";
+import container from "../dependency-injection";
 
-export const createUser: Handler = async (event: any): Promise<any> => {
-  return {
-    statusCode: 200,
-    headers: {
-      "Content-Type": "text/plain",
-    },
-    body: "Creating user",
-  };
-};
+const createUserController = container.get('apps.crud.controllers.UserCreateController');
+export const createUser: Handler = async (event: any): Promise<any> => await createUserController.run(event);
 
 export const getUser: Handler = async (event: any): Promise<any> => {
   return {
