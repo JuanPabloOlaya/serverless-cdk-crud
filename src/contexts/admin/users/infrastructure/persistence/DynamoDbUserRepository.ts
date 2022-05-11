@@ -20,6 +20,6 @@ export class DynamoDbUserRepository extends DynamoDbRepository<User> implements 
 	}
 
 	protected tableName(): string {
-		return process.env.USERS_TABLE || "school-manager-users-dev";
+		return process.env.USERS_TABLE || "crud-users-dev";
 	}
 }
