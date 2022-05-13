@@ -56,7 +56,7 @@ export class ServerlessCdkCrudStack extends Stack {
     userParamsResource.addMethod("PUT", new APIGateway.LambdaIntegration(updateUserLambda));
     userParamsResource.addMethod("DELETE", new APIGateway.LambdaIntegration(deleteUserLambda));
 
-    new DynamoDB.Table(this, "crud-users-dev", {
+    const usersTable = new DynamoDB.Table(this, "crud-users-dev", {
       partitionKey: {
         name: "id",
         type: DynamoDB.AttributeType.STRING,
@@ -64,5 +64,9 @@ export class ServerlessCdkCrudStack extends Stack {
       billingMode: DynamoDB.BillingMode.PAY_PER_REQUEST,
       tableName: "crud-users-dev",
     });
+    usersTable.grantWriteData(createUserLambda);
+    usersTable.grantReadData(getUserLambda);
+    usersTable.grantWriteData(updateUserLambda);
+    usersTable.grantWriteData(deleteUserLambda);
   }
 }

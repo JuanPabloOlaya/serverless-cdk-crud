@@ -3,7 +3,6 @@ import { UserAlreadyExists } from "../../../contexts/admin/users/domain/UserAlre
 import { CommandBus } from "../../../contexts/shared/domain/CommandBus";
 import { CreateUserCommand } from "../../../contexts/admin/users/application/CreateUserCommand";
 import { v4 } from 'uuid';
-import httpStatus from "http-status";
 
 export class UserCreateController implements Controller {
 	constructor(private commandBus: CommandBus) {}
@@ -29,9 +28,9 @@ export class UserCreateController implements Controller {
 			});
 
 			await this.commandBus.dispatch(createUserCommand);
-			console.log(httpStatus);
+
 			return  {
-				statusCode: httpStatus["200"],
+				statusCode: 200,
 				headers: {
 					'Content-Type': 'application/json',
 				},
@@ -40,10 +39,10 @@ export class UserCreateController implements Controller {
 					data: createUserCommand,
 				})
 			};
-		} catch (error: any) {
+		} catch (error) {
 			if (error instanceof UserAlreadyExists) {
 				return {
-					statusCode: httpStatus.BAD_REQUEST,
+					statusCode: 400,
 					headers: {
 						'Content-Type': 'text/plain',
 					},
@@ -51,7 +50,7 @@ export class UserCreateController implements Controller {
 				};
 			} else {
 				return {
-					statusCode: httpStatus.INTERNAL_SERVER_ERROR,
+					statusCode: 500,
 					headers: {
 						'Content-Type': 'application/json',
 					},
