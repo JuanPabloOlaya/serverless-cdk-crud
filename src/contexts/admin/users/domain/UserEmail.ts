@@ -11,7 +11,7 @@ export class UserEmail extends StringValueObject {
     }
 
     private ensureLengthIsLessThan75Characters(value: string): void {
-        if (value.length > 76) {
+        if (value.length > 75) {
             throw new InvalidArgumentError(`The User Email <${value}> has more than 75 characters`);
         }
     }
