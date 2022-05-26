@@ -3,6 +3,7 @@ import { UserAlreadyExists } from "../../../contexts/admin/users/domain/UserAlre
 import { CommandBus } from "../../../contexts/shared/domain/CommandBus";
 import { CreateUserCommand } from "../../../contexts/admin/users/application/CreateUserCommand";
 import { v4 } from 'uuid';
+import { InvalidArgumentError } from "../../../contexts/shared/domain/value-object/InvalidArgumentError";
 
 export class UserCreateController implements Controller {
 	constructor(private commandBus: CommandBus) {}
@@ -40,7 +41,7 @@ export class UserCreateController implements Controller {
 				})
 			};
 		} catch (error) {
-			if (error instanceof UserAlreadyExists) {
+			if (error instanceof UserAlreadyExists || error instanceof InvalidArgumentError) {
 				return {
 					statusCode: 400,
 					headers: {

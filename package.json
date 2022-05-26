@@ -6,6 +6,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "serve": "cdk synth && sam local start-api -t ./cdk.out/ServerlessCdkCrudStack.template.json",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"
