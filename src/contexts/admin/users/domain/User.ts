@@ -2,6 +2,7 @@ import { UserId } from "./UserId";
 import { UserFirstName } from "./UserFirstName";
 import { UserLastName } from "./UserLastName";
 import { UserEmail } from "./UserEmail";
+import { UserDocType } from "./UserDocType";
 import { AggregateRoot } from "../../../shared/domain/AggregateRoot";
 
 export class User extends AggregateRoot {
@@ -10,7 +11,7 @@ export class User extends AggregateRoot {
   readonly lastName: UserLastName;
   readonly email: UserEmail;
   readonly password: string;
-  readonly docType: string;
+  readonly docType: UserDocType;
   readonly docNumber: string;
 
   constructor({
@@ -27,7 +28,7 @@ export class User extends AggregateRoot {
     lastName: UserLastName;
     email: UserEmail;
     password: string;
-    docType: string;
+    docType: UserDocType;
     docNumber: string;
   }) {
     super();
@@ -55,7 +56,7 @@ export class User extends AggregateRoot {
     lastName: UserLastName;
     email: UserEmail;
     password: string;
-    docType: string;
+    docType: UserDocType;
     docNumber: string;
   }): User {
     return new User({
@@ -75,7 +76,7 @@ export class User extends AggregateRoot {
     lastName: string;
     email: string;
     password: string;
-    docType: string;
+    docType: string | number;
     docNumber: string;
   }): User {
     return new User({
@@ -84,7 +85,7 @@ export class User extends AggregateRoot {
       lastName: new UserLastName(plainData.lastName),
       email: new UserEmail(plainData.email),
       password: plainData.password,
-      docType: plainData.docType,
+      docType: new UserDocType(plainData.docType),
       docNumber: plainData.docNumber,
     });
   }

@@ -6,6 +6,7 @@ import { UserId } from "../domain/UserId";
 import { UserFirstName } from "../domain/UserFirstName";
 import { UserLastName } from "../domain/UserLastName";
 import { UserEmail } from "../domain/UserEmail";
+import { UserDocType } from "../domain/UserDocType";
 
 export class CreateUserCommandHandler implements CommandHandler<CreateUserCommand> {
 	constructor(private userCreator: UserCreator) {}
@@ -15,10 +16,11 @@ export class CreateUserCommandHandler implements CommandHandler<CreateUserComman
 	}
 
 	async handle(command: CreateUserCommand): Promise<void> {
-		const id = new UserId(command.id);
-		const firstName = new UserFirstName(command.firstName);
-		const lastName = new UserLastName(command.lastName);
-		const email = new UserEmail(command.email);
+		const id: UserId = new UserId(command.id);
+		const firstName: UserFirstName = new UserFirstName(command.firstName);
+		const lastName: UserLastName = new UserLastName(command.lastName);
+		const email: UserEmail = new UserEmail(command.email);
+		const docType: UserDocType = new UserDocType(command.docType);
 
 		await this.userCreator.run({
 			userId: id,
@@ -26,7 +28,7 @@ export class CreateUserCommandHandler implements CommandHandler<CreateUserComman
 			userLastName: lastName,
 			userEmail: email,
 			userPassword: command.password,
-			userDocType: command.docType,
+			userDocType: docType,
 			userDocNumber: command.docNumber,
 		});
 	}

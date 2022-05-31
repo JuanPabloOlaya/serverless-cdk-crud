@@ -4,6 +4,7 @@ import { UserEmail } from "../domain/UserEmail";
 import { UserFirstName } from "../domain/UserFirstName";
 import { UserLastName } from "../domain/UserLastName";
 import { UserRepository } from "../domain/UserRepository";
+import { UserDocType } from "../domain/UserDocType";
 
 type Params = {
   userId: UserId;
@@ -11,7 +12,7 @@ type Params = {
   userLastName: UserLastName;
   userEmail: UserEmail;
   userPassword: string;
-  userDocType: string;
+  userDocType: UserDocType;
   userDocNumber: string;
 };
 
