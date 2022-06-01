@@ -5,6 +5,7 @@ import { UserFirstName } from "../domain/UserFirstName";
 import { UserLastName } from "../domain/UserLastName";
 import { UserRepository } from "../domain/UserRepository";
 import { UserDocType } from "../domain/UserDocType";
+import { UserDocNumber } from "../domain/UserDocNumber";
 
 type Params = {
   userId: UserId;
@@ -13,7 +14,7 @@ type Params = {
   userEmail: UserEmail;
   userPassword: string;
   userDocType: UserDocType;
-  userDocNumber: string;
+  userDocNumber: UserDocNumber;
 };
 
 export class UserCreator {

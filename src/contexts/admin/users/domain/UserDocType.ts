@@ -11,7 +11,6 @@ export class UserDocType {
   }
 
   private validateValueExistence(value: string | number): void {
-    console.log("Here")
     if (!DocTypeEnum[value]) {
       throw new InvalidArgumentError(`The User Doc Type <${value}> is not valid`);
     }

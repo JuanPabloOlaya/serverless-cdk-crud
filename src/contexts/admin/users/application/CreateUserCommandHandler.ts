@@ -7,6 +7,7 @@ import { UserFirstName } from "../domain/UserFirstName";
 import { UserLastName } from "../domain/UserLastName";
 import { UserEmail } from "../domain/UserEmail";
 import { UserDocType } from "../domain/UserDocType";
+import { UserDocNumber } from "../domain/UserDocNumber";
 
 export class CreateUserCommandHandler implements CommandHandler<CreateUserCommand> {
 	constructor(private userCreator: UserCreator) {}
@@ -21,6 +22,7 @@ export class CreateUserCommandHandler implements CommandHandler<CreateUserComman
 		const lastName: UserLastName = new UserLastName(command.lastName);
 		const email: UserEmail = new UserEmail(command.email);
 		const docType: UserDocType = new UserDocType(command.docType);
+		const docNumber: UserDocNumber = new UserDocNumber(command.docNumber);
 
 		await this.userCreator.run({
 			userId: id,
@@ -29,7 +31,7 @@ export class CreateUserCommandHandler implements CommandHandler<CreateUserComman
 			userEmail: email,
 			userPassword: command.password,
 			userDocType: docType,
-			userDocNumber: command.docNumber,
+			userDocNumber: docNumber,
 		});
 	}
 }

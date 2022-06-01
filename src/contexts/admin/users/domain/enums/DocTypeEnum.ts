@@ -1,5 +1,5 @@
 export enum DocTypeEnum {
-  "CC",
-  "CE",
-  "TI",
+  CC = 1,
+  CE = 2,
+  TI = 3,
 }

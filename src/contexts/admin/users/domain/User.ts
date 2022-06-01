@@ -3,6 +3,7 @@ import { UserFirstName } from "./UserFirstName";
 import { UserLastName } from "./UserLastName";
 import { UserEmail } from "./UserEmail";
 import { UserDocType } from "./UserDocType";
+import { UserDocNumber } from "./UserDocNumber";
 import { AggregateRoot } from "../../../shared/domain/AggregateRoot";
 
 export class User extends AggregateRoot {
@@ -12,7 +13,7 @@ export class User extends AggregateRoot {
   readonly email: UserEmail;
   readonly password: string;
   readonly docType: UserDocType;
-  readonly docNumber: string;
+  readonly docNumber: UserDocNumber;
 
   constructor({
     id,
@@ -29,7 +30,7 @@ export class User extends AggregateRoot {
     email: UserEmail;
     password: string;
     docType: UserDocType;
-    docNumber: string;
+    docNumber: UserDocNumber;
   }) {
     super();
 
@@ -57,7 +58,7 @@ export class User extends AggregateRoot {
     email: UserEmail;
     password: string;
     docType: UserDocType;
-    docNumber: string;
+    docNumber: UserDocNumber;
   }): User {
     return new User({
       id,
@@ -86,7 +87,7 @@ export class User extends AggregateRoot {
       email: new UserEmail(plainData.email),
       password: plainData.password,
       docType: new UserDocType(plainData.docType),
-      docNumber: plainData.docNumber,
+      docNumber: new UserDocNumber(plainData.docNumber),
     });
   }
 
@@ -97,8 +98,8 @@ export class User extends AggregateRoot {
       lastName: this.lastName.value,
       email: this.email.value,
       password: this.password,
-      docType: this.docType,
-      docNumber: this.docNumber,
+      docType: this.docType.value,
+      docNumber: this.docNumber.value,
     };
   }
 }
