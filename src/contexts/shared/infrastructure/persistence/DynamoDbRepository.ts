@@ -29,8 +29,7 @@ export abstract class DynamoDbRepository<T extends AggregateRoot> {
       Item: aggregateRoot.toDDBItem(),
     });
 
-    const response = await this.clientDocument().send(putItemCommand);
-    console.log(JSON.stringify(response))
+    await this.clientDocument().send(putItemCommand);
   }
 
   protected async find(id: string): Promise<{ [key: string]: AttributeValue } | undefined> {
