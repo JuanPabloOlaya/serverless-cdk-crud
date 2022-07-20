@@ -3,9 +3,14 @@ import { DynamoDbRepository } from "../../../../shared/infrastructure/persistenc
 import { UserId } from "../../domain/UserId";
 import { User } from "../../domain/User";
 import { UserRepository } from "../../domain/UserRepository";
+import { UserAlreadyExists } from "../../domain/UserAlreadyExists";
 
 export class DynamoDbUserRepository extends DynamoDbRepository<User> implements UserRepository {
-	public save(user: User): Promise<void> {
+	public async save(user: User): Promise<void> {
+		const isUniqueItem = await this.isUniqueItem(user);
+		
+		if (!isUniqueItem) throw new UserAlreadyExists(user.id.value);
+
 		return this.persist(user.id.value, user);
 	}
 

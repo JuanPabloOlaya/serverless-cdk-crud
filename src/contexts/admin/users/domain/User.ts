@@ -5,6 +5,7 @@ import { UserEmail } from "./UserEmail";
 import { UserDocType } from "./UserDocType";
 import { UserDocNumber } from "./UserDocNumber";
 import { AggregateRoot } from "../../../shared/domain/AggregateRoot";
+import { AttributeValue } from "@aws-sdk/client-dynamodb";
 
 export class User extends AggregateRoot {
   readonly id: UserId;
@@ -101,5 +102,16 @@ export class User extends AggregateRoot {
       docType: this.docType.value,
       docNumber: this.docNumber.value,
     };
+  }
+
+  uniquesAttributesValues(): {[key: string]: AttributeValue} {
+    return {
+      ":email": { S: this.email.value },
+      ":docNumber": { S: this.docNumber.value },
+    };
+  }
+
+  uniqueFilterExpression(): string {
+    return "email = :email or docNumber = :docNumber";
   }
 }
