@@ -3,6 +3,7 @@ import {
   StackProps,
   aws_lambda_nodejs as Lambda,
   aws_apigateway as APIGateway,
+  aws_dynamodb as DynamoDB,
 } from "aws-cdk-lib";
 import { Construct } from "constructs";
 
@@ -11,7 +12,7 @@ export class ServerlessCdkCrudStack extends Stack {
     super(scope, id, props);
 
     const createUserLambda: Lambda.NodejsFunction = new Lambda.NodejsFunction(this, "createUser", {
-      entry: "src/apps/admin/lambdas/index.ts",
+      entry: "src/apps/crud/lambdas/index.ts",
       handler: "createUser",
       bundling: {
         preCompilation: true,
@@ -19,7 +20,7 @@ export class ServerlessCdkCrudStack extends Stack {
     });
 
     const getUserLambda: Lambda.NodejsFunction = new Lambda.NodejsFunction(this, "getUser", {
-      entry: "src/apps/admin/lambdas/index.ts",
+      entry: "src/apps/crud/lambdas/index.ts",
       handler: "getUser",
       bundling: {
         preCompilation: true,
@@ -27,7 +28,7 @@ export class ServerlessCdkCrudStack extends Stack {
     });
 
     const updateUserLambda: Lambda.NodejsFunction = new Lambda.NodejsFunction(this, "updateUser", {
-      entry: "src/apps/admin/lambdas/index.ts",
+      entry: "src/apps/crud/lambdas/index.ts",
       handler: "updateUser",
       bundling: {
         preCompilation: true,
@@ -35,7 +36,7 @@ export class ServerlessCdkCrudStack extends Stack {
     });
 
     const deleteUserLambda: Lambda.NodejsFunction = new Lambda.NodejsFunction(this, "deleteUser", {
-      entry: "src/apps/admin/lambdas/index.ts",
+      entry: "src/apps/crud/lambdas/index.ts",
       handler: "deleteUser",
       bundling: {
         preCompilation: true,
@@ -54,5 +55,18 @@ export class ServerlessCdkCrudStack extends Stack {
     userParamsResource.addMethod("GET", new APIGateway.LambdaIntegration(getUserLambda));
     userParamsResource.addMethod("PUT", new APIGateway.LambdaIntegration(updateUserLambda));
     userParamsResource.addMethod("DELETE", new APIGateway.LambdaIntegration(deleteUserLambda));
+
+    const usersTable = new DynamoDB.Table(this, "crud-users-dev", {
+      partitionKey: {
+        name: "id",
+        type: DynamoDB.AttributeType.STRING,
+      },
+      billingMode: DynamoDB.BillingMode.PAY_PER_REQUEST,
+      tableName: "crud-users-dev",
+    });
+    usersTable.grantWriteData(createUserLambda);
+    usersTable.grantReadData(getUserLambda);
+    usersTable.grantWriteData(updateUserLambda);
+    usersTable.grantWriteData(deleteUserLambda);
   }
 }
