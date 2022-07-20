@@ -8,9 +8,10 @@ import { UserAlreadyExists } from "../../domain/UserAlreadyExists";
 export class DynamoDbUserRepository extends DynamoDbRepository<User> implements UserRepository {
 	public async save(user: User): Promise<void> {
 		const isUniqueItem = await this.isUniqueItem(user);
-		
+
 		if (!isUniqueItem) throw new UserAlreadyExists(user.id.value);
 
+		console.warn("Test");
 		return this.persist(user.id.value, user);
 	}
 

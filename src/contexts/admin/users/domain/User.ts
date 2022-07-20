@@ -104,6 +104,18 @@ export class User extends AggregateRoot {
     };
   }
 
+  toDDBItem(): { [key: string]: AttributeValue; } {
+    return {
+      "id": { S: this.id.value },
+      "firstName": { S: this.firstName.value },
+      "lastName": { S: this.lastName.value },
+      "email": { S: this.email.value },
+      "password": { S: this.password },
+      "docType": { S: this.docType.value.toString() },
+      "docNumber": { S: this.docNumber.value },
+    };
+  }
+
   uniquesAttributesValues(): {[key: string]: AttributeValue} {
     return {
       ":email": { S: this.email.value },

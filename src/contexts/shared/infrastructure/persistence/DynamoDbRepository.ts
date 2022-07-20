@@ -1,52 +1,60 @@
-import { DynamoDBClient, PutItemCommand, GetItemCommand, GetItemCommandOutput, AttributeValue, ScanCommand, ScanCommandOutput } from '@aws-sdk/client-dynamodb';
+import {
+  DynamoDBClient,
+  PutItemCommand,
+  GetItemCommand,
+  GetItemCommandOutput,
+  AttributeValue,
+  ScanCommand,
+  ScanCommandOutput,
+} from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 import { AggregateRoot } from "../../domain/AggregateRoot";
 
-
 export abstract class DynamoDbRepository<T extends AggregateRoot> {
-	private _client: DynamoDBClient;
+  private _client: DynamoDBClient;
 
-	constructor() {
-		this._client = new DynamoDBClient({});
-	}
+  constructor() {
+    this._client = new DynamoDBClient({});
+  }
 
-	protected abstract tableName(): string;
+  protected abstract tableName(): string;
 
-	protected clientDocument(): DynamoDBDocument {
-		return DynamoDBDocument.from(this._client);
-	}
+  protected clientDocument(): DynamoDBDocument {
+    return DynamoDBDocument.from(this._client);
+  }
 
-	protected async persist(id: string, aggregateRoot: T): Promise<void> {
-		const putItemCommand: PutItemCommand = new PutItemCommand({
-			TableName: this.tableName(),
-			Item: aggregateRoot.toPrimitives(),
-		});
+  protected async persist(id: string, aggregateRoot: T): Promise<void> {
+    const putItemCommand: PutItemCommand = new PutItemCommand({
+      TableName: this.tableName(),
+      Item: aggregateRoot.toDDBItem(),
+    });
 
-		await this.clientDocument().send(putItemCommand);
-	}
+    const response = await this.clientDocument().send(putItemCommand);
+    console.log(JSON.stringify(response))
+  }
 
-	protected async find(id: string): Promise<{[key: string]: AttributeValue } | undefined> {
-		const getItemCommand: GetItemCommand = new GetItemCommand({
-			TableName: this.tableName(),
-			Key: {
-				id: {S: id},
-			},
-		});
+  protected async find(id: string): Promise<{ [key: string]: AttributeValue } | undefined> {
+    const getItemCommand: GetItemCommand = new GetItemCommand({
+      TableName: this.tableName(),
+      Key: {
+        id: { S: id },
+      },
+    });
 
-		const response: GetItemCommandOutput = await this.clientDocument().send(getItemCommand);
+    const response: GetItemCommandOutput = await this.clientDocument().send(getItemCommand);
 
-		return response.Item;
-	}
+    return response.Item;
+  }
 
-	protected async isUniqueItem(aggregateRoot: T): Promise<boolean> {
-		const scanCommand: ScanCommand = new ScanCommand({
-			TableName: this.tableName(),
-			ExpressionAttributeValues: aggregateRoot.uniquesAttributesValues(),
-			FilterExpression: aggregateRoot.uniqueFilterExpression(),
-		});
-		
-		const response: ScanCommandOutput = await this.clientDocument().send(scanCommand);
+  protected async isUniqueItem(aggregateRoot: T): Promise<boolean> {
+    const scanCommand: ScanCommand = new ScanCommand({
+      TableName: this.tableName(),
+      ExpressionAttributeValues: aggregateRoot.uniquesAttributesValues(),
+      FilterExpression: aggregateRoot.uniqueFilterExpression(),
+    });
 
-		return !response.Count;
-	}
+    const response: ScanCommandOutput = await this.clientDocument().send(scanCommand);
+
+    return !response.Count;
+  }
 }
