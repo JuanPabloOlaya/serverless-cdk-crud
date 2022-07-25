@@ -1,3 +1,3 @@
 export interface Controller {
-	run(event: any): Promise<void>;
+	run(event: unknown): Promise<unknown | void>;
 }

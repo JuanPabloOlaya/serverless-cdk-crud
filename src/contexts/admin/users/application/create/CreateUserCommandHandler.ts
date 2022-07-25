@@ -1,13 +1,13 @@
-import { CreateUserCommand } from "./CreateUserCommand";
-import { CommandHandler } from "../../../shared/domain/CommandHandler";
-import { UserCreator } from "./UserCreator";
-import { Command } from "../../../shared/domain/Command";
-import { UserId } from "../domain/UserId";
-import { UserFirstName } from "../domain/UserFirstName";
-import { UserLastName } from "../domain/UserLastName";
-import { UserEmail } from "../domain/UserEmail";
-import { UserDocType } from "../domain/UserDocType";
-import { UserDocNumber } from "../domain/UserDocNumber";
+import { CreateUserCommand } from "../CreateUserCommand";
+import { CommandHandler } from "../../../../shared/domain/CommandHandler";
+import { UserCreator } from "../UserCreator";
+import { Command } from "../../../../shared/domain/Command";
+import { UserId } from "../../domain/UserId";
+import { UserFirstName } from "../../domain/UserFirstName";
+import { UserLastName } from "../../domain/UserLastName";
+import { UserEmail } from "../../domain/UserEmail";
+import { UserDocType } from "../../domain/UserDocType";
+import { UserDocNumber } from "../../domain/UserDocNumber";
 
 export class CreateUserCommandHandler implements CommandHandler<CreateUserCommand> {
 	constructor(private userCreator: UserCreator) {}
