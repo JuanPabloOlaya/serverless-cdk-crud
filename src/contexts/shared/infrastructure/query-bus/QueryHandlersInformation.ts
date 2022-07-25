@@ -24,7 +24,7 @@ export class QueryHandlersInformation {
 
   public search(query: Query): QueryHandler<Query, Response> {
     const queryHandler = this.queryHandlersMap.get(query.constructor);
-
+    
     if (!queryHandler) {
       throw new QueryNotRegisteredError(query);
     }

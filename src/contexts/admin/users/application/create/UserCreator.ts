@@ -1,11 +1,11 @@
-import { UserId } from "../domain/UserId";
-import { User } from "../domain/User";
-import { UserEmail } from "../domain/UserEmail";
-import { UserFirstName } from "../domain/UserFirstName";
-import { UserLastName } from "../domain/UserLastName";
-import { UserRepository } from "../domain/UserRepository";
-import { UserDocType } from "../domain/UserDocType";
-import { UserDocNumber } from "../domain/UserDocNumber";
+import { UserId } from "../../domain/UserId";
+import { User } from "../../domain/User";
+import { UserEmail } from "../../domain/UserEmail";
+import { UserFirstName } from "../../domain/UserFirstName";
+import { UserLastName } from "../../domain/UserLastName";
+import { UserRepository } from "../../domain/UserRepository";
+import { UserDocType } from "../../domain/UserDocType";
+import { UserDocNumber } from "../../domain/UserDocNumber";
 
 type Params = {
   userId: UserId;

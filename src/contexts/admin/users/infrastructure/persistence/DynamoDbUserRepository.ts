@@ -4,6 +4,7 @@ import { UserId } from "../../domain/UserId";
 import { User } from "../../domain/User";
 import { UserRepository } from "../../domain/UserRepository";
 import { UserAlreadyExists } from "../../domain/UserAlreadyExists";
+import { AttributeValue } from "@aws-sdk/client-dynamodb";
 
 export class DynamoDbUserRepository extends DynamoDbRepository<User> implements UserRepository {
 	public async save(user: User): Promise<void> {
@@ -16,10 +17,12 @@ export class DynamoDbUserRepository extends DynamoDbRepository<User> implements 
 	}
 
 	public async search(id: UserId): Promise<Nullable<User>> {
-		const response: any = await this.find(id.value);
+		const response: { [key: string]: AttributeValue } | undefined = await this.find(id.value);
 
 		if (response) {
-			return User.fromPrimitives(response)
+			const unmarshalledItem = this.unmarshallItem(response);
+			console.log(JSON.stringify(unmarshalledItem));
+			return User.fromPrimitives(unmarshalledItem);
 		}
 
 		return null;

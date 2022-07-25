@@ -8,7 +8,7 @@ import { InvalidArgumentError } from "../../../contexts/shared/domain/value-obje
 export class UserCreateController implements Controller {
   constructor(private commandBus: CommandBus) {}
 
-  async run(event: any): Promise<any> {
+  async run(event: any): Promise<unknown | void> {
     try {
       const { firstName, lastName, email, password, docType, docNumber }: any = JSON.parse(
         event.body

@@ -6,6 +6,7 @@ import { UserDocType } from "./UserDocType";
 import { UserDocNumber } from "./UserDocNumber";
 import { AggregateRoot } from "../../../shared/domain/AggregateRoot";
 import { AttributeValue } from "@aws-sdk/client-dynamodb";
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
 
 export class User extends AggregateRoot {
   readonly id: UserId;
@@ -72,15 +73,7 @@ export class User extends AggregateRoot {
     });
   }
 
-  static fromPrimitives(plainData: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    docType: string | number;
-    docNumber: string;
-  }): User {
+  static fromPrimitives(plainData: { [key: string]: any }): User {
     return new User({
       id: new UserId(plainData.id),
       firstName: new UserFirstName(plainData.firstName),
@@ -104,19 +97,19 @@ export class User extends AggregateRoot {
     };
   }
 
-  toDDBItem(): { [key: string]: AttributeValue; } {
+  toDDBItem(): { [key: string]: AttributeValue } {
     return {
-      "id": { S: this.id.value },
-      "firstName": { S: this.firstName.value },
-      "lastName": { S: this.lastName.value },
-      "email": { S: this.email.value },
-      "password": { S: this.password },
-      "docType": { S: this.docType.value.toString() },
-      "docNumber": { S: this.docNumber.value },
+      id: { S: this.id.value },
+      firstName: { S: this.firstName.value },
+      lastName: { S: this.lastName.value },
+      email: { S: this.email.value },
+      password: { S: this.password },
+      docType: { S: this.docType.value.toString() },
+      docNumber: { S: this.docNumber.value },
     };
   }
 
-  uniquesAttributesValues(): {[key: string]: AttributeValue} {
+  uniquesAttributesValues(): { [key: string]: AttributeValue } {
     return {
       ":email": { S: this.email.value },
       ":docNumber": { S: this.docNumber.value },
