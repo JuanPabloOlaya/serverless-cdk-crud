@@ -12,7 +12,6 @@ export class DynamoDbUserRepository extends DynamoDbRepository<User> implements 
 
 		if (!isUniqueItem) throw new UserAlreadyExists(user.id.value);
 
-		console.warn("Test");
 		return this.persist(user.id.value, user);
 	}
 
@@ -21,7 +20,7 @@ export class DynamoDbUserRepository extends DynamoDbRepository<User> implements 
 
 		if (response) {
 			const unmarshalledItem = this.unmarshallItem(response);
-			console.log(JSON.stringify(unmarshalledItem));
+			
 			return User.fromPrimitives(unmarshalledItem);
 		}
 

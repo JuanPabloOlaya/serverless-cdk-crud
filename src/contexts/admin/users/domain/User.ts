@@ -6,7 +6,6 @@ import { UserDocType } from "./UserDocType";
 import { UserDocNumber } from "./UserDocNumber";
 import { AggregateRoot } from "../../../shared/domain/AggregateRoot";
 import { AttributeValue } from "@aws-sdk/client-dynamodb";
-import { DynamoDB } from "@aws-sdk/client-dynamodb";
 
 export class User extends AggregateRoot {
   readonly id: UserId;
