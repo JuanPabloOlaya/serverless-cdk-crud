@@ -21,7 +21,6 @@ export class UserFindController implements Controller {
         body: JSON.stringify(user.user.toPrimitives()),
       };
     } catch (error) {
-      console.error(error);
       if (error instanceof UserNotExists) {
         return {
           statusCode: 400,
