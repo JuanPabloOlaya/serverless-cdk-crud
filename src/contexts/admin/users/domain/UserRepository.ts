@@ -6,4 +6,6 @@ export interface UserRepository {
 	save(user: User): Promise<void>;
 
 	search(id: UserId): Promise<Nullable<User>>;
+
+	remove(id: UserId): Promise<void>;
 }

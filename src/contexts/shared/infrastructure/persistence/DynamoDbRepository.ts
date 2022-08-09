@@ -6,6 +6,7 @@ import {
   AttributeValue,
   ScanCommand,
   ScanCommandOutput,
+  DeleteItemCommand,
 } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 import { AggregateRoot } from "../../domain/AggregateRoot";
@@ -48,6 +49,16 @@ export abstract class DynamoDbRepository<T extends AggregateRoot> {
     return response.Item;
   }
 
+  protected async delete(id: string): Promise<void> {
+    const attributeMap = this.marshallItem({ id: id });
+    const deleteItemCommand: DeleteItemCommand = new DeleteItemCommand({
+      TableName: this.tableName(),
+      Key: attributeMap,
+    });
+
+    await this.clientDocument().send(deleteItemCommand);
+  }
+
   protected async isUniqueItem(aggregateRoot: T): Promise<boolean> {
     const scanCommand: ScanCommand = new ScanCommand({
       TableName: this.tableName(),
@@ -62,5 +73,37 @@ export abstract class DynamoDbRepository<T extends AggregateRoot> {
 
   protected unmarshallItem(ddbItem: {[key: string]: AttributeValue}): {[key: string]: any} {
     return this._marshaller.unmarshallItem(ddbItem);
+  }
+
+  protected marshallItem(data: {[key: string]: any}): {[key: string]: AttributeValue} {
+    const marshalledItem: { [key: string]: AttributeValue } = {};
+
+    for(const property in data) {
+      if (typeof data[property] === 'string') {
+        marshalledItem[property] = {
+          S: data[property]
+        };
+
+        continue;
+      }
+
+      if (typeof data[property] === "boolean") {
+        marshalledItem[property] = {
+          BOOL: data[property],
+        };
+
+        continue;
+      }
+
+      if (typeof data[property] === "number") {
+        marshalledItem[property] = {
+          N: data[property],
+        };
+        
+        continue;
+      }
+    }
+
+    return marshalledItem;
   }
 }

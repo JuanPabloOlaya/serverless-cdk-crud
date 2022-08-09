@@ -1,6 +1,7 @@
 import { ContainerBuilder, Reference } from "node-dependency-injection";
 import { UserCreateController } from "../../controllers/UserPutController";
 import { UserFindController } from "../../controllers/UserFindController";
+import { UserDeleteController } from "../../controllers/UserDeleteController";
 
 export const injectAppsDependencies: (container: ContainerBuilder) => void = (
   container: ContainerBuilder
@@ -11,4 +12,7 @@ export const injectAppsDependencies: (container: ContainerBuilder) => void = (
   container
     .register("apps.crud.controllers.UserFindController", UserFindController)
     .addArgument(new Reference("shared.QueryBus"));
+  container
+    .register("apps.crud.controllers.UserDeleteController", UserDeleteController)
+    .addArgument(new Reference("shared.CommandBus"));
 };

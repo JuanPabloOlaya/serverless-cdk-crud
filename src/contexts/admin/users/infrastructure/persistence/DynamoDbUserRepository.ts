@@ -27,6 +27,10 @@ export class DynamoDbUserRepository extends DynamoDbRepository<User> implements 
 		return null;
 	}
 
+	public async remove(id: UserId): Promise<void> {
+		return this.delete(id.value);
+	}
+
 	protected tableName(): string {
 		return process.env.USERS_TABLE || "crud-users-dev";
 	}

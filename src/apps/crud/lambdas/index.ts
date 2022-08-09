@@ -17,12 +17,5 @@ export const updateUser: Handler = async (event: any): Promise<any> => {
 	};
 };
 
-export const deleteUser: Handler = async (event: any): Promise<any> => {
-	return {
-		statusCode: 200,
-		headers: {
-			"Content-Type": "text/plain",
-		},
-		body: "Deleting user",
-	};
-};
+const deleteUserController = container.get('apps.crud.controllers.UserDeleteController');
+export const deleteUser: Handler = async (event: any): Promise<any> => await deleteUserController.run(event);
