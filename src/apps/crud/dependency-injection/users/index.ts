@@ -6,6 +6,8 @@ import { FindUserQueryHandler } from "../../../../contexts/admin/users/applicati
 import { DynamoDbUserRepository } from "../../../../contexts/admin/users/infrastructure/persistence/DynamoDbUserRepository";
 import { UserDeleter } from "../../../../contexts/admin/users/application/delete/UserDeleter";
 import { DeleteUserCommandHandler } from "../../../../contexts/admin/users/application/delete/DeleteUserCommandHandler";
+import { UserUpdater } from "../../../../contexts/admin/users/application/update/UserUpdater";
+import { UpdateUserCommandHandler } from "../../../../contexts/admin/users/application/update/UpdateUserCommandHandler";
 
 type InjectionFunction = (container: ContainerBuilder) => void;
 
@@ -39,9 +41,20 @@ const injectDeleteDependencies: InjectionFunction = (container: ContainerBuilder
     .addTag("commandHandler");
 };
 
+const injectUpdateDependencies: InjectionFunction = (container: ContainerBuilder): void => {
+  container
+    .register("admin.users.UserUpdater", UserUpdater)
+    .addArgument(new Reference("admin.users.UserRepository"));
+  container
+    .register("admin.users.UpdateUserCommandHandler", UpdateUserCommandHandler)
+    .addArgument(new Reference("admin.users.UserUpdater"))
+    .addTag("commandHandler");
+}
+
 export const injectUsersDependencies: InjectionFunction = (container: ContainerBuilder): void => {
   container.register("admin.users.UserRepository", DynamoDbUserRepository);
   injectCreateDependencies(container);
   injectFindDependencies(container);
   injectDeleteDependencies(container);
+  injectUpdateDependencies(container);
 };

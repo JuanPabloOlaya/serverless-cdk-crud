@@ -15,6 +15,10 @@ export class DynamoDbUserRepository extends DynamoDbRepository<User> implements 
 		return this.persist(user.id.value, user);
 	}
 
+	public update(user: User): Promise<void> {
+		return this.persist(user.id.value, user);
+	}
+
 	public async search(id: UserId): Promise<Nullable<User>> {
 		const response: { [key: string]: AttributeValue } | undefined = await this.find(id.value);
 
