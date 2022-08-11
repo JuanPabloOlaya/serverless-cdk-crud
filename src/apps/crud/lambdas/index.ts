@@ -7,15 +7,8 @@ export const createUser: Handler = async (event: any): Promise<any> => await cre
 const findUserController = container.get('apps.crud.controllers.UserFindController');
 export const getUser: Handler = async (event: any): Promise<any> => await findUserController.run(event);
 
-export const updateUser: Handler = async (event: any): Promise<any> => {
-	return {
-		statusCode: 200,
-		headers: {
-			"Content-Type": "text/plain",
-		},
-		body: "Updating user",
-	};
-};
+const updateUserController = container.get('apps.crud.controllers.UserUpdateController');
+export const updateUser: Handler = async (event: any): Promise<any> => await updateUserController.run(event);
 
 const deleteUserController = container.get('apps.crud.controllers.UserDeleteController');
 export const deleteUser: Handler = async (event: any): Promise<any> => await deleteUserController.run(event);
