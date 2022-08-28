@@ -11,6 +11,8 @@
     "noImplicitAny": false,
     "strictNullChecks": true,
     "noImplicitThis": true,
+    "rootDir": "./src",
+    "outDir": "./asset-output",
     "alwaysStrict": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
@@ -26,8 +28,14 @@
     ],
     "esModuleInterop": true
   },
+  "include": [
+    "src"
+  ],
   "exclude": [
     "node_modules",
-    "cdk.out"
+    "cdk.out",
+    "bin",
+    "lib",
+    "test"
   ]
 }

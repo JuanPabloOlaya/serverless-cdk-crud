@@ -8,17 +8,15 @@ import {
   ScanCommandOutput,
   DeleteItemCommand,
 } from "@aws-sdk/client-dynamodb";
+import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 import { AggregateRoot } from "../../domain/AggregateRoot";
-import { Marshaller } from "@aws/dynamodb-auto-marshaller";
 
 export abstract class DynamoDbRepository<T extends AggregateRoot> {
   private _client: DynamoDBClient;
-  private _marshaller: Marshaller;
 
   constructor() {
     this._client = new DynamoDBClient({});
-    this._marshaller = new Marshaller();
   }
 
   protected abstract tableName(): string;
@@ -71,39 +69,11 @@ export abstract class DynamoDbRepository<T extends AggregateRoot> {
     return !response.Count;
   }
 
-  protected unmarshallItem(ddbItem: {[key: string]: AttributeValue}): {[key: string]: any} {
-    return this._marshaller.unmarshallItem(ddbItem);
+  protected unmarshallItem(data: {[key: string]: AttributeValue}): {[key: string]: any} {
+    return unmarshall(data);
   }
 
   protected marshallItem(data: {[key: string]: any}): {[key: string]: AttributeValue} {
-    const marshalledItem: { [key: string]: AttributeValue } = {};
-
-    for(const property in data) {
-      if (typeof data[property] === 'string') {
-        marshalledItem[property] = {
-          S: data[property]
-        };
-
-        continue;
-      }
-
-      if (typeof data[property] === "boolean") {
-        marshalledItem[property] = {
-          BOOL: data[property],
-        };
-
-        continue;
-      }
-
-      if (typeof data[property] === "number") {
-        marshalledItem[property] = {
-          N: data[property],
-        };
-        
-        continue;
-      }
-    }
-
-    return marshalledItem;
+    return marshall(data);
   }
 }

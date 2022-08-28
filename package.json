@@ -25,16 +25,15 @@
     "prettier": "^2.6.2",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
-    "typescript": "~3.9.7"
+    "typescript": "^4.7.4"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.87.0",
     "@aws-sdk/lib-dynamodb": "^3.87.0",
-    "@aws/dynamodb-auto-marshaller": "^0.7.1",
     "aws-cdk-lib": "2.23.0",
     "constructs": "^10.0.0",
     "http-status": "^1.5.2",
-    "node-dependency-injection": "^3.0.0-alpha.3",
+    "node-dependency-injection": "^3.0.3",
     "source-map-support": "^0.5.21",
     "uuid-validate": "^0.0.3"
   }
