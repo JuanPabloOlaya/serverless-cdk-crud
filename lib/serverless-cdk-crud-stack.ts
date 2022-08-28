@@ -12,7 +12,7 @@ export class ServerlessCdkCrudStack extends Stack {
     super(scope, id, props);
 
     const createUserLambda: Lambda.NodejsFunction = new Lambda.NodejsFunction(this, "createUser", {
-      entry: "src/apps/crud/lambdas/index.ts",
+      entry: "src/index.ts",
       handler: "createUser",
       bundling: {
         preCompilation: true,
@@ -20,7 +20,7 @@ export class ServerlessCdkCrudStack extends Stack {
     });
 
     const getUserLambda: Lambda.NodejsFunction = new Lambda.NodejsFunction(this, "getUser", {
-      entry: "src/apps/crud/lambdas/index.ts",
+      entry: "src/index.ts",
       handler: "getUser",
       bundling: {
         preCompilation: true,
@@ -28,7 +28,7 @@ export class ServerlessCdkCrudStack extends Stack {
     });
 
     const updateUserLambda: Lambda.NodejsFunction = new Lambda.NodejsFunction(this, "updateUser", {
-      entry: "src/apps/crud/lambdas/index.ts",
+      entry: "src/index.ts",
       handler: "updateUser",
       bundling: {
         preCompilation: true,
@@ -36,7 +36,7 @@ export class ServerlessCdkCrudStack extends Stack {
     });
 
     const deleteUserLambda: Lambda.NodejsFunction = new Lambda.NodejsFunction(this, "deleteUser", {
-      entry: "src/apps/crud/lambdas/index.ts",
+      entry: "src/index.ts",
       handler: "deleteUser",
       bundling: {
         preCompilation: true,
