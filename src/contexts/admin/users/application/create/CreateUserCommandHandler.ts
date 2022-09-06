@@ -1,6 +1,6 @@
-import { CreateUserCommand } from "../CreateUserCommand";
+import { CreateUserCommand } from "./CreateUserCommand";
 import { CommandHandler } from "../../../../shared/domain/CommandHandler";
-import { UserCreator } from "../UserCreator";
+import { UserCreator } from "./UserCreator";
 import { Command } from "../../../../shared/domain/Command";
 import { UserId } from "../../domain/UserId";
 import { UserFirstName } from "../../domain/UserFirstName";

@@ -1,7 +1,7 @@
 import { Controller } from "./Controller";
 import { UserAlreadyExists } from "../../../contexts/admin/users/domain/UserAlreadyExists";
 import { CommandBus } from "../../../contexts/shared/domain/CommandBus";
-import { CreateUserCommand } from "../../../contexts/admin/users/application/CreateUserCommand";
+import { CreateUserCommand } from "../../../contexts/admin/users/application/create/CreateUserCommand";
 import { v4 } from "uuid";
 import { InvalidArgumentError } from "../../../contexts/shared/domain/value-object/InvalidArgumentError";
 

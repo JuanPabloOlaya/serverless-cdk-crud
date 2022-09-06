@@ -1,0 +1,7 @@
+{
+    "stage": "dev",
+    "frontend": {
+        "repository_name": "serverless-cdk-crud-front",
+        "owner": "JuanPabloOlaya"
+    }
+}
